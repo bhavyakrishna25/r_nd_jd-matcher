@@ -1,0 +1,27 @@
+<main class="page-shell">
+  <section class="hero-card">
+    <p class="eyebrow">AI Resume vs Job Description Matcher</p>
+    <h1>{{ title }}</h1>
+    <p class="hero-copy">
+      Upload a resume, paste a job description, and get a simple skill match report in one place.
+    </p>
+  </section>
+
+  <section class="input-grid">
+    <div class="input-card-wrap">
+      <app-upload-resume></app-upload-resume>
+    </div>
+
+    <div class="input-card-wrap">
+      <app-job-description></app-job-description>
+    </div>
+  </section>
+
+  <section class="action-row">
+    <app-analyze-button></app-analyze-button>
+  </section>
+
+  <section class="results-row">
+    <app-results></app-results>
+  </section>
+</main>

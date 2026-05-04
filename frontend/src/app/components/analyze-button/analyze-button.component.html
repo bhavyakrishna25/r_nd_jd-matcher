@@ -1,0 +1,15 @@
+<section class="action-card">
+  <button
+    type="button"
+    class="analyze-button"
+    [disabled]="!analysisService.canAnalyze()"
+    (click)="onAnalyze()"
+  >
+    <span *ngIf="!analysisService.loading()">Analyze</span>
+    <span *ngIf="analysisService.loading()">Analyzing...</span>
+  </button>
+
+  <p class="helper-text">
+    Upload your resume and enter the job description before running the analysis.
+  </p>
+</section>

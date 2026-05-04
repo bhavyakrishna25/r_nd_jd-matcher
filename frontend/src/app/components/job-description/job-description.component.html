@@ -1,0 +1,13 @@
+<section class="card">
+  <div class="card-header">
+    <h2>Job Description</h2>
+    <p>Paste the role requirements and responsibilities here.</p>
+  </div>
+
+  <textarea
+    rows="12"
+    placeholder="Paste the job description here..."
+    [ngModel]="analysisService.jobDescription()"
+    (ngModelChange)="onJobDescriptionChange($event)"
+  ></textarea>
+</section>

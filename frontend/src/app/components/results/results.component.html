@@ -1,0 +1,157 @@
+<section class="card results-card">
+  <div class="card-header">
+    <h2>Results</h2>
+    <p>Your match summary will appear here after analysis.</p>
+  </div>
+
+  <div *ngIf="analysisService.errorMessage()" class="message error">
+    {{ analysisService.errorMessage() }}
+  </div>
+
+  <div *ngIf="analysisService.loading()" class="message loading">
+    <div class="spinner"></div>
+    <span>Analyzing your resume against the job description...</span>
+  </div>
+
+  <ng-container *ngIf="analysisService.result() as result; else emptyState">
+    <div class="score-panel">
+      <div class="score-top">
+        <div>
+          <p class="score-label">Overall Recruiter Match</p>
+          <p class="score-value">{{ result.overall_match_percentage }}%</p>
+        </div>
+
+        <div class="score-chip-group">
+          <span class="summary-chip summary-chip-strong" *ngIf="result.overall_match_percentage >= 80">
+            Strong Match
+          </span>
+          <span class="summary-chip summary-chip-medium" *ngIf="result.overall_match_percentage >= 50 && result.overall_match_percentage < 80">
+            Moderate Match
+          </span>
+          <span class="summary-chip summary-chip-gap" *ngIf="result.overall_match_percentage < 50">
+            Needs Improvement
+          </span>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" [style.width.%]="result.overall_match_percentage"></div>
+      </div>
+
+      <p class="score-note">
+        This score combines skills, experience, education, certifications, and overall resume relevance.
+      </p>
+    </div>
+
+    <div class="insight-grid">
+      <div class="mini-stat mini-stat-accent">
+        <p class="mini-stat-label">Skill Match</p>
+        <p class="mini-stat-value">{{ result.skill_match_percentage }}%</p>
+      </div>
+      <div class="mini-stat">
+        <p class="mini-stat-label">Experience Match</p>
+        <p class="mini-stat-value">{{ result.experience_match_percentage }}%</p>
+      </div>
+      <div class="mini-stat">
+        <p class="mini-stat-label">Education Match</p>
+        <p class="mini-stat-value">{{ result.education_match_percentage }}%</p>
+      </div>
+      <div class="mini-stat">
+        <p class="mini-stat-label">Certification Match</p>
+        <p class="mini-stat-value">{{ result.certification_match_percentage }}%</p>
+      </div>
+    </div>
+
+    <div class="result-section">
+      <h3>Recruiter Breakdown</h3>
+      <div class="criteria-list">
+        <div class="criteria-item" *ngFor="let item of result.criteria_breakdown; trackBy: trackByValue">
+          <div class="criteria-row">
+            <span class="criteria-title">{{ item.criterion }}</span>
+            <span
+              class="criteria-badge"
+              [class.criteria-strong]="item.status === 'strong'"
+              [class.criteria-moderate]="item.status === 'moderate'"
+              [class.criteria-gap]="item.status === 'gap'"
+            >
+              {{ item.score }}%
+            </span>
+          </div>
+          <p class="criteria-copy">{{ item.details }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-grid">
+      <div class="result-section result-card">
+        <h3>Experience Snapshot</h3>
+        <p class="detail-copy" *ngIf="result.required_experience_years !== null">
+          JD requirement: {{ result.required_experience_years }}+ years. Resume detected: {{ result.resume_experience_years }} years.
+        </p>
+        <p class="detail-copy" *ngIf="result.required_experience_years === null">
+          No clear experience requirement was detected in the job description. Resume detected: {{ result.resume_experience_years }} years.
+        </p>
+      </div>
+
+      <div class="result-section result-card">
+        <h3>Top Suggestions</h3>
+        <ul class="suggestion-list compact-list">
+          <li *ngFor="let suggestion of result.suggestions; trackBy: trackByValue">
+            {{ suggestion }}
+          </li>
+        </ul>
+        <p *ngIf="!result.suggestions.length" class="empty-copy">Suggestions will appear here.</p>
+      </div>
+    </div>
+
+    <div class="section-grid">
+      <div class="result-section result-card">
+        <h3>Matched Skills</h3>
+        <div class="tag-list">
+          <span class="tag tag-success" *ngFor="let skill of result.matched_skills; trackBy: trackByValue">
+            {{ skill }}
+          </span>
+          <p *ngIf="!result.matched_skills.length" class="empty-copy">No matched skills found yet.</p>
+        </div>
+      </div>
+
+      <div class="result-section result-card">
+        <h3>Missing Skills</h3>
+        <div class="tag-list">
+          <span class="tag tag-danger" *ngFor="let skill of result.missing_skills; trackBy: trackByValue">
+            {{ skill }}
+          </span>
+          <p *ngIf="!result.missing_skills.length" class="empty-copy">No missing skills detected.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-grid">
+      <div class="result-section result-card">
+        <h3>Education Gaps</h3>
+        <div class="tag-list">
+          <span class="tag tag-danger" *ngFor="let education of result.missing_education; trackBy: trackByValue">
+            {{ education }}
+          </span>
+          <p *ngIf="!result.missing_education.length" class="empty-copy">No education gaps detected.</p>
+        </div>
+      </div>
+
+      <div class="result-section result-card">
+        <h3>Certification Gaps</h3>
+        <div class="tag-list">
+          <span class="tag tag-danger" *ngFor="let certification of result.missing_certifications; trackBy: trackByValue">
+            {{ certification }}
+          </span>
+          <p *ngIf="!result.missing_certifications.length" class="empty-copy">No certification gaps detected.</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <div *ngIf="!analysisService.loading()" class="empty-state">
+      <p>Upload a resume and paste a job description to see the analysis.</p>
+    </div>
+  </ng-template>
+</section>

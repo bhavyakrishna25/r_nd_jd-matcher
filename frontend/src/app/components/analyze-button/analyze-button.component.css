@@ -1,0 +1,33 @@
+.action-card {
+  padding: 8px 4px 0;
+}
+
+.analyze-button {
+  width: 100%;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 18px 30px rgba(3, 105, 161, 0.22);
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.analyze-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.analyze-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.helper-text {
+  margin: 12px 8px 0;
+  color: #64748b;
+  text-align: center;
+}

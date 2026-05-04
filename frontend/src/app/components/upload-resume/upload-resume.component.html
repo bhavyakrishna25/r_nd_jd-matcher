@@ -1,0 +1,20 @@
+<section class="card">
+  <div class="card-header">
+    <h2>Upload Resume</h2>
+    <p>Select a PDF or DOCX file. We will send it to the backend when you click Analyze.</p>
+  </div>
+
+  <label class="upload-box" for="resumeFile">
+    <input
+      id="resumeFile"
+      type="file"
+      [accept]="acceptedFileTypes"
+      (change)="onFileSelected($event)"
+    />
+
+    <span class="upload-title">Choose resume file</span>
+    <span class="upload-subtitle">
+      {{ analysisService.selectedFile()?.name || 'No file selected yet' }}
+    </span>
+  </label>
+</section>
